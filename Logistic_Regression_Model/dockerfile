@@ -1,0 +1,27 @@
+# Use the official Python image from the Docker Hub
+FROM python:3.10
+
+# Set the working directory in the container
+WORKDIR /code
+
+# Copy the requirements.txt file into the container
+COPY app/requirements.txt /code/requirements.txt
+
+# Upgrade pip to the latest version
+RUN pip install --upgrade pip
+
+# List files for debugging
+RUN ls -al /code
+
+# Install the Python dependencies
+RUN pip install --no-cache-dir -r /code/requirements.txt
+
+# Copy the application code into the container
+COPY app /code/app
+
+# Expose port 8000 for the application
+EXPOSE 8000
+
+# Command to run the application using uvicorn
+CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000"]
+
